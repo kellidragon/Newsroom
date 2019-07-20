@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const NoteSchema = new Schema({
+const CommentSchema = new Schema({
 
   title: String,
   body: String
@@ -10,6 +10,6 @@ const NoteSchema = new Schema({
 });
 
 // This creates our model from the above schema
-const Note = mongoose.model("Note", NoteSchema);
+const Comment = mongoose.model("Comment", CommentSchema);
 
-module.exports = Note;
+module.exports = Comment;

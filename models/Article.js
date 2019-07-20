@@ -7,12 +7,19 @@ var ArticleSchema = new Schema({
   title: {
     type: String
   },
+  summary: {
+    type: String
+  },
   link: {
     type: String
   },
-  note: {
+  img: {
+    data: Buffer, 
+    contentType: String
+  },
+  comment: {
     type: Schema.Types.ObjectId,
-    ref: "Note"
+    ref: "Comment"
   }
 });
 
