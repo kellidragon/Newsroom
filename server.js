@@ -92,6 +92,15 @@ app.get("/articles", function(req, res) {
     });
 });
 
+// Route for getting all saved Articles from the db
+app.get("/saved", function(req, res) {
+  Article.find({"saved": true}).populate("notes").exec(function(error, articles) {
+    var hbsObject = {
+      article: articles
+    };
+    res.render("saved", hbsObject);
+  });
+});
 
 // Route for grabbing a specific Article by id, populate it with it's note
 app.get("/articles/:id", function(req, res) {
@@ -123,6 +132,23 @@ app.post("/articles/:id", function(req, res) {
       // If an error occurred, send it to the client
       res.json(err);
     });
+});
+
+// Save an article
+app.post("/articles/save/:id", function(req, res) {
+  // Use the article id to find and update its saved boolean
+  Article.findOneAndUpdate({ "_id": req.params.id }, { "saved": true})
+  // Execute the above query
+  .exec(function(err, doc) {
+    // Log any errors
+    if (err) {
+      console.log(err);
+    }
+    else {
+      // Or send the document to the browser
+      res.send(doc);
+    }
+  });
 });
 
 

@@ -7,15 +7,40 @@
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <title>Newsroom Mongo Scraping</title>
   <style>
+
+    *{
+      font-family: 'Times New Roman', Times, serif;
+    }
     body {
-      background-color: white
+      background: url("../uploads/news2.jpg")no-repeat center center fixed;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
     }
 
-    #wrapper {
+    .btn{
+      margin: 10px;
+    }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  .navbar{
+    background-color: rgba(254, 255, 254, 0.637) !important;
+  }
+
+  .jumbotron{
+    background-color: rgba(227, 230, 225, 0.589);
+    padding-left: 150px;
+  }
+
+   .articlesCont {
       width: 100%;
       margin-left: auto;
       margin-right: auto;
-      padding-left: 18%;
+      padding-left: 12%;
       padding-top: 5%;
     }
 
@@ -55,14 +80,16 @@
       border-radius: 5%;
     }
 
-    .form-control{
+    .form-control {
       height: 40px;
     }
-    .container{
+
+    .container {
       margin: 0 auto;
+      text-align: center;
     }
 
-    .commentCol{
+    .commentCol {
       background: rgba(227, 230, 225, 0.253)
     }
   </style>
@@ -70,7 +97,9 @@
 
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="#">
+      <img src="uploads/logo.png" width="70" height="70">
+    </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
       aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -79,17 +108,15 @@
     </div>
   </nav>
   <div class="jumbotron">
-    <h1 class="display-4">Newsroom Mongo Scraper</h1>
-    <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to
-      featured content or information.</p>
-    <hr class="my-4">
-    <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-    <a class="btn btn-primary btn-lg" href="#" role="button">Saved Articles</a>
-    <button class="btn btn-primary btn-lg" id="letsScrape" role="button">Let's Scrape!</button>
+    <h1 class="display-4">The Newsroom</h1>
+    <hr class="my-4" style="background-color: black !important;">
+    <p class="lead"> For Coverage You Can Count On</p>
+    <a class="btn btn-light"  href="" role="button">Saved Articles</a>
+    <button class="btn btn-dark" id="letsScrape" role="button">Let's Scrape!</button>
   </div>
 
   <div id="wrapper">
-    <div class="container">
+    <div class="container articlesCont">
       <div class="row">
         <div class="col-12">
           <div id="articles"></div>
@@ -97,7 +124,6 @@
 
         </div>
       </div>
-    </div>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="app.js"></script>

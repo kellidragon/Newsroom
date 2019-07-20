@@ -13,6 +13,10 @@ var ArticleSchema = new Schema({
   link: {
     type: String
   },
+  saved: {
+    type: Boolean,
+    default: false
+  },
   img: {
     data: Buffer, 
     contentType: String
