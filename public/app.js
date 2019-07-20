@@ -7,7 +7,7 @@ $.getJSON("/articles", function(data) {
   for (var i = 0; i < data.length; i++) {
     // Display the apropos information on the page
     $("#articles").append(
-    "<div class='card' style='width: 18rem' data-id='" 
+    "<div class='card' style='width: 25rem' data-id='" 
     + data[i]._id + "'>" + "<img class='card-img-top' alt='...' src='" 
     + data[i].img + "'>" + "<div class='card-body'>"+ "<h5 class='card-head'>" 
     + data[i].title + "</h5>" + "<br />" + "<a class'card-text'>" + "<p>" 
@@ -26,7 +26,7 @@ $.getJSON("/articles", function(data) {
 
 // })
 
-$(document).on("click", "#commentArticle", function() {
+$(document).one("click", "#commentArticle", function() {
   // Empty the notes from the note section
   $("#comments").empty();
   // Save the id from the p tag
@@ -44,13 +44,11 @@ $(document).on("click", "#commentArticle", function() {
       $(".card").append("<input class='form-control' type= 'text' placeholder ='Write your comment here' id='titleinput' name='title' >");
       $(".card").append("<button data-id='" + data._id + "' id='savenote'>Save Comment</button>");
       $(".card").append("<button data-id='" + data._id + "' id='deleteComment'>Delete Comment</button>");
-
       // If there's a note in the article
       if (data.comment) {
         // Place the title of the note in the title input
         $("#titleinput").val(data.comment.title);
-        // Place the body of the note in the body textarea
-        $("#bodyinput").val(data.comment.body);
+        
       }
     });
 });
