@@ -3,6 +3,7 @@ $(".articlesCont").hide();
 $(document).click("#letsSrape", function () {
 
   $(".articlesCont").show();
+  $("#savedArticles").hide();
 
   $.getJSON("/articles", function (data) {
     for (let i = 0; i < data.length; i++) {
@@ -20,6 +21,7 @@ $(document).click("#letsSrape", function () {
 
     }
   });
+
 })
 
 
@@ -75,15 +77,27 @@ $(document).on("click", "#save", function() {
   });
 });
 
+
+
 //See all saved button
 $(document).click("#findSaved", function() {
-  console.log("working")
+  $("#articles").hide();
+
+  // $(".articlesCont").hide();
+  $("#savedArticles").show();
   $.getJSON("/saved", function (data) {
     console.log(data)
     for (let i = 0; i < data.length; i++) {
-      $("#articles").append( "<p>" + data[i].title+ "</p>")
+      $("#saveCount").html(data.length + " articles found")
+      $("#savedArticles").append(  "<div class='card' style='width: 25rem' data-id='"
+      + data[i]._id + "'>"  + "<div class='card-body'>" + "<h5 class='card-header'>"
+      + data[i].title + "</h5>" + "<br />" + "<p>" + "Link:" + "<p>" +
+      "<a class='card-text' href='" + data[i].link + "'>" + data[i].link + "</a>" + "<br>" + "<br>" + "<button id='saveArt' class='btn btn-success' data-id='"
+      + data[i]._id + "'>" + "Save" + "</button>" + "<button id='commentArticle' class='btn btn-secondary' data-id='"
+      + data[i]._id + "'>" + "Comment" + "</button>" + "<button id='deleteArticle' class='btn btn-dark' data-id='"
+      + data[i]._id + "'>" + "Delete" + "</button>" + "<div id='commentForm'>" + "</div>"+ "<div id='savedCom'>" + "</div>" + "</div>" + "</div>")
     }
- 
+  
   });
 
 });
