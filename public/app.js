@@ -17,7 +17,7 @@ $(document).click("#letsSrape", function () {
         "<a class='card-text' href='" + data[i].link + "'>" + data[i].link + "</a>" + "<br>" + "<br>" + "<button id='saveArt' class='btn btn-outline-info' data-id='"
         + data[i]._id + "'>" + "Save" + "</button>" + "<button id='commentArticle' class='btn btn-outline-success' data-id='"
         + data[i]._id + "'>" + "Comment" + "</button>" + "<button id='deleteArticle' class='btn btn-outline-dark' data-id='"
-        + data[i]._id + "'>" + "Delete" + "</button>" + "<div id='commentForm'>" + "</div>"+ "<div id='savedCom'>" + data[i].comment + "</div>" + "</div>" + "</div>");
+        + data[i]._id + "'>" + "Delete" + "</button>" + "<div id='commentForm'>" + "</div>" + "</div>" + "</div>");
 
     }
   });
@@ -39,6 +39,7 @@ $(document).one("click", "#commentArticle", function () {
       console.log(data)
       $(".card" ).append("<input class='form-control' type= 'text' placeholder ='Write your comment here' id='titleinput' name='title' >");
       $(".card").append("<button class='btn btn-outline-success 'data-id='" + data._id + "' id='savenote'>Save Comment</button>");
+      $(".card").append("<div id='savedCom'>" + "Previous Comments: " + "</div>")
 
       if (data.comment) {
         $("#savedCom").val(data.comment.title);
