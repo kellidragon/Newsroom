@@ -9,7 +9,7 @@ const cheerio = require("cheerio");
 // Require all models
 const db = require("./models");
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000
 
 // Initialize Express
 const app = express();
@@ -27,7 +27,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // Connect to the Mongo DB
-let MONGODB_URI = process.env.MONGODB_URI || "mongodb://newsroom:metropcs1@ds151997.mlab.com:51997/heroku_k44g601m";
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://heroku_k44g601m:password1.mlab.com:51997/heroku_k44g601m";
 mongoose.connect((MONGODB_URI), { useNewUrlParser: true });;
 
 // mongodb://localhost/newsroom
