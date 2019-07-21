@@ -17,7 +17,7 @@ $(document).click("#letsSrape", function () {
         "<a class='card-text' href='" + data[i].link + "'>" + data[i].link + "</a>" + "<br>" + "<br>" + "<button id='saveArt' class='btn btn-outline-info' data-id='"
         + data[i]._id + "'>" + "Save" + "</button>" + "<button id='commentArticle' class='btn btn-outline-success' data-id='"
         + data[i]._id + "'>" + "Comment" + "</button>" + "<button id='deleteArticle' class='btn btn-outline-dark' data-id='"
-        + data[i]._id + "'>" + "Delete" + "</button>" + "<div id='commentForm'>" + "</div>"+ "<div id='savedCom'>" + "</div>" + "</div>" + "</div>");
+        + data[i]._id + "'>" + "Delete" + "</button>" + "<div id='commentForm'>" + "</div>"+ "<div id='savedCom'>" + data[i].comment + "</div>" + "</div>" + "</div>");
 
     }
   });
@@ -96,7 +96,7 @@ $(document).on("click", "#saveArt", function() {
 
 
 
-// When you click the savenote button
+// When you click the save comment button
 $(document).on("click", "#savenote", function () {
 
   let thisId = $(this).attr("data-id");
