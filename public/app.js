@@ -27,7 +27,6 @@ $(document).click("#letsSrape", function () {
 
 $(document).one("click", "#commentArticle", function () {
 
-  // $("#comments").empty();
   let thisId = $(this).attr("data-id");
 
   $.ajax({
@@ -65,7 +64,7 @@ $(document).on("click", "#deleteArticle", function () {
 $(document).on("click", "#saveArt", function() {
   console.log("working")
   $(this).addClass("disabled");
-  var thisId = $(this).attr("data-id");
+  let thisId = $(this).attr("data-id");
   console.log(thisId);
 
   $.ajax({
@@ -81,10 +80,6 @@ $(document).on("click", "#saveArt", function() {
 });
 
 
-
-//See all saved button
-// $(document).click("#findSaved", function() {
-
   $.getJSON("/saved", function (data) {
     console.log(data)
     for (let i = 0; i < data.length; i++) {
@@ -99,7 +94,6 @@ $(document).on("click", "#saveArt", function() {
  
   });
 
-// });
 
 
 // When you click the savenote button
@@ -122,8 +116,6 @@ $(document).on("click", "#savenote", function () {
       $("#comments").empty();
     });
 
-
-  // Also, remove the values entered in the input and textarea for note entry
   $("#titleinput").val("");
   $("#bodyinput").val("");
 });

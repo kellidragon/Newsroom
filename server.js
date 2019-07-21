@@ -17,6 +17,9 @@ const app = express();
 // Configure middleware
 app.use(logger("dev"));
 
+// Set mongoose to leverage built in JavaScript ES6 Promises
+mongoose.Promise = Promise;
+
 // Parse request body as JSON
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -24,20 +27,13 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // Connect to the Mongo DB
-// const MONGODB_URI = process.env.MONGODB_URI || "mongodb://newsroom:Metropcs1@ds151997.mlab.com:51997/heroku_k44g601m", ;
-// mongoose.connect((MONGODB_URI), { useNewUrlParser: true });;
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/newsroom";
+mongoose.connect((MONGODB_URI), { useNewUrlParser: true });;
 
-mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGODB_URI || "mongodb://newsroom:Metropcs1@ds151997.mlab.com:51997/heroku_k44g601m", 
-{
-  useMongoClient: true
-}
-);
-
-// Routes
 
 
 
+// Routes
 app.get("/scrape", function (req, res) {
   axios.get("https://news.google.com/").then(function (response) {
 
@@ -85,14 +81,12 @@ app.get("/articles", function (req, res) {
 
 // Route for grabbing a specific Article by id, populate it with it's note
 app.get("/articles/:id", function (req, res) {
-  // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
   db.Article.findOne({ _id: req.params.id })
     .populate("comment")
     .then(function (dbArticle) {
       res.json(dbArticle);
     })
     .catch(function (err) {
-      // If an error occurred, send it to the client
       res.json(err);
     });
 });
