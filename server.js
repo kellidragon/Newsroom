@@ -24,7 +24,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // Connect to the Mongo DB
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/newsroom";
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://newsroom:Metropcs1@ds151997.mlab.com:51997/heroku_k44g601m",;
 mongoose.connect((MONGODB_URI), { useNewUrlParser: true });;
 
 // Routes
@@ -75,12 +75,6 @@ app.get("/articles", function(req, res) {
     });
 });
 
-// Route for getting all saved Articles from the db
-// app.get("/saved", function(req, res) {
-//   Article.find({"saved": true}).populate("articles").then(function(error, articles) {
-//     res.json(articles);
-//   });
-// });
 
 // Route for grabbing a specific Article by id, populate it with it's note
 app.get("/articles/:id", function(req, res) {
