@@ -36,13 +36,12 @@ $(document).one("click", "#commentArticle", function () {
 
     .then(function (data) {
 
-      console.log(data)
       $(".card" ).append("<input class='form-control' type= 'text' placeholder ='Write your comment here' id='titleinput' name='title' >");
       $(".card").append("<button class='btn btn-outline-success 'data-id='" + data._id + "' id='savenote'>Save Comment</button>");
       $(".card").append("<div id='savedCom'>" + "Previous Comments: " + "</div>")
 
       if (data.comment) {
-        $("#savedCom").val(data.comment.title);
+        $("#savedCom").append(data.comment.title);
 
       }
     });
