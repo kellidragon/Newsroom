@@ -27,9 +27,10 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // Connect to the Mongo DB
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/newsroom";
+let MONGODB_URI = process.env.MONGODB_URI || "mongodb://newsroom:metropcs1@ds151997.mlab.com:51997/heroku_k44g601m";
 mongoose.connect((MONGODB_URI), { useNewUrlParser: true });;
 
+// mongodb://localhost/newsroom
 
 
 
