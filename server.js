@@ -56,12 +56,10 @@ app.get("/scrape", function(req, res) {
           console.log(dbArticle);
         })
         .catch(function(err) {
-          // If an error occurred, log it
           console.log(err);
         });
     });
    
-    // Send a message to the client
     res.send("Scrape Complete");
   });
 });
@@ -78,11 +76,11 @@ app.get("/articles", function(req, res) {
 });
 
 // Route for getting all saved Articles from the db
-app.get("/saved", function(req, res) {
-  Article.find({"saved": true}).populate("articles").then(function(error, articles) {
-    res.json(articles);
-  });
-});
+// app.get("/saved", function(req, res) {
+//   Article.find({"saved": true}).populate("articles").then(function(error, articles) {
+//     res.json(articles);
+//   });
+// });
 
 // Route for grabbing a specific Article by id, populate it with it's note
 app.get("/articles/:id", function(req, res) {
@@ -100,7 +98,7 @@ app.get("/articles/:id", function(req, res) {
 
 // Route for saving/updating an Article's associated Note
 app.post("/articles/:id", function(req, res) {
-  // Create a new note and pass the req.body to the entry
+
   db.Comment.create(req.body)
     .then(function(dbComment) {
       return db.Article.findOneAndUpdate({ _id: req.params.id }, { comment: dbComment._id }, { new: true });
@@ -109,22 +107,36 @@ app.post("/articles/:id", function(req, res) {
       res.json(dbArticle);
     })
     .catch(function(err) {
-      // If an error occurred, send it to the client
+
       res.json(err);
     });
 });
 
-// Save an article
-app.post("/articles/save/:id", function(req, res) {
-  Article.findOneAndUpdate({ "_id": req.params.id }, { "saved": true})
-  .then(function(err, doc) {
-    if (err) {
-      console.log(err);
-    }
-    else {
-      res.send(doc);
-    }
-  });
+
+// Route for saving/updating article to be saved
+app.put("/saved/:id", function(req, res) {
+
+  db.Article
+    .findByIdAndUpdate({ _id: req.params.id }, { $set: { saved: true }})
+    .then(function(dbArticle) {
+      res.json(dbArticle);
+    })
+    .catch(function(err) {
+      res.json(err);
+    });
+});
+
+// Route for getting saved article
+app.get("/saved", function(req, res) {
+
+  db.Article
+    .find({ saved: true })
+    .then(function(dbArticle) {
+      res.json(dbArticle);
+    })
+    .catch(function(err) {
+      res.json(err);
+    });
 });
 
 
