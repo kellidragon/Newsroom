@@ -39,7 +39,7 @@
 #artCount{
   font-size: 1.5rem;
 }
-   .articlesCont {
+   .articlesCont , #savedArticles{
       width: 100%;
       margin-left: auto;
       margin-right: auto;
@@ -117,22 +117,22 @@
     <h1 class="display-4">The Newsroom</h1>
     <hr class="my-4" style="background-color: black !important;">
     <p class="lead"> For Coverage You Can Count On</p>
-    <a class="btn btn-light viewSaved" href="saved.html" role="button">View Saved</a>
-    <button class="btn btn-dark" id="letsScrape" role="button">Let's Scrape!</button>
-  </div>
-
-  <div id="wrapper">
-    <div class="container articlesCont">
-      <div class="row">
-        <div class="col-12">
-          <div id="artCount" ></div>
-          <div id="articles">  </div>
-          <!-- <div class="container savedCont">
-              <div id="savedArticles">  </div> -->
-          <div id="comments"></div>
-
-        </div>
-      </div>
+    <button class="btn btn-light findSaved"  role="button">Saved Articles</button>
+    <!-- <button class="btn btn-dark" id="letsScrape" role="button">Let's Scrape!</button> -->
+    </div>
+    <div id="wrapper">
+            <div class="container">
+              <div class="row">
+                <div class="col-12">
+                  <!-- <div id="artCount" ></div>
+                  <div id="articles">  </div> -->
+                  <div class="container savedCont"></div>
+                      <div id="savedArticles">  </div>
+                  <div id="comments"></div>
+        
+                </div>
+              </div>
+          </div>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="app.js"></script>
