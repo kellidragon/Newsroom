@@ -2,32 +2,31 @@ $(".articlesCont").hide();
 
 $(document).click("#letsSrape", function () {
 
-$(".articlesCont").show();
+  $(".articlesCont").show();
 
   $.getJSON("/articles", function (data) {
-    for (var i = 0; i < data.length; i++) {
+    for (let i = 0; i < data.length; i++) {
 
       $("#artCount").html(data.length + " articles found")
-   
+
       $("#articles").append(
         "<div class='card' style='width: 25rem' data-id='"
-        + data[i]._id + "'>" + "<img class='card-img-top' alt='...' src='"
-        + data[i].img + "'>" + "<div class='card-body'>" + "<h5 class='card-header'>"
-        + data[i].title + "</h5>" + "<br />" + "<p>" + "Link:" + "<p>" + 
-        "<a class='card-text' href='" + data[i].link + "'>" +  data[i].link + "</a>" + "<br>" + "<br>" + "<button id='save' class='btn btn-success' data-id='"
-        + data[i]._id + "'>" + "Save" + "</button>"  + "<button id='commentArticle' class='btn btn-secondary' data-id='"
-        + data[i]._id + "'>" + "Comment" + "</button>"  +"<button id='deleteArticle' class='btn btn-dark' data-id='"
-        + data[i]._id + "'>" + "Delete" + "</button>" + "<div id='savedCom'>"+"</div>" + "</div>" + "</div>" );
-     
+        + data[i]._id + "'>"  + "<div class='card-body'>" + "<h5 class='card-header'>"
+        + data[i].title + "</h5>" + "<br />" + "<p>" + "Link:" + "<p>" +
+        "<a class='card-text' href='" + data[i].link + "'>" + data[i].link + "</a>" + "<br>" + "<br>" + "<button id='save' class='btn btn-success' data-id='"
+        + data[i]._id + "'>" + "Save" + "</button>" + "<button id='commentArticle' class='btn btn-secondary' data-id='"
+        + data[i]._id + "'>" + "Comment" + "</button>" + "<button id='deleteArticle' class='btn btn-dark' data-id='"
+        + data[i]._id + "'>" + "Delete" + "</button>" + "<div id='commentForm'>" + "</div>"+ "<div id='savedCom'>" + "</div>" + "</div>" + "</div>");
+
     }
   });
 })
 
 
-$(document).on("click", "#commentArticle", function () {
+$(document).one("click", "#commentArticle", function () {
 
   // $("#comments").empty();
-  var thisId = $(this).attr("data-id");
+  let thisId = $(this).attr("data-id");
 
   $.ajax({
     method: "GET",
@@ -35,14 +34,12 @@ $(document).on("click", "#commentArticle", function () {
   })
 
     .then(function (data) {
- 
-console.log(data)
-      $("#savedCom").append("<input class='form-control' type= 'text' placeholder ='Write your comment here' id='titleinput' name='title' >");
-      $("#savedCom").append("<button class='btn btn-light 'data-id='" + data._id + "' id='savenote'>Save Comment</button>");
-      // $(".card").append("<button class='btn btn-danger' data-id='" + data._id + "' id='deleteComment'>Delete Comment</button>");
-      // If there's a note in the article
+
+      console.log(data)
+      $(".card" ).append("<input class='form-control' type= 'text' placeholder ='Write your comment here' id='titleinput' name='title' >");
+      $(".card").append("<button class='btn btn-light 'data-id='" + data._id + "' id='savenote'>Save Comment</button>");
+
       if (data.comment) {
-        // Place the title of the note in the title input
         $("#savedCom").val(data.comment.title);
 
       }
@@ -50,7 +47,7 @@ console.log(data)
 });
 
 $(document).on("click", "#deleteArticle", function () {
-  var thisId = $(this).attr("data-id");
+  let thisId = $(this).attr("data-id");
   $.ajax({
     method: "DELETE",
     url: "/articles/" + thisId,
@@ -64,7 +61,7 @@ $(document).on("click", "#deleteArticle", function () {
 //Save Article button
 $(document).on("click", "#save", function () {
   console.log("works")
-  var thisId = $(this).attr("data-id");
+  let thisId = $(this).attr("data-id");
   $.ajax({
     method: "POST",
     url: "/articles/save/" + thisId
@@ -77,7 +74,7 @@ $(document).on("click", "#save", function () {
 // When you click the savenote button
 $(document).on("click", "#savenote", function () {
 
-  var thisId = $(this).attr("data-id");
+  let thisId = $(this).attr("data-id");
   alert("Thank you for your comment!")
 
   $.ajax({

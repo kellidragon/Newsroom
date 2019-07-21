@@ -36,21 +36,6 @@ app.get("/scrape", function(req, res) {
 
     
     let $ = cheerio.load(response.data);
-    $("figure img").each(function(i, element) {
-      let result = {};
-      result.img = $(this)
-      .attr('src')
-      db.Article.create(result)
-      .then(function(dbArticle) {
-        // View the added result in the console
-        console.log(dbArticle);
-      })
-      .catch(function(err) {
-        // If an error occurred, log it
-        console.log(err);
-      });
-    });
-
     $("article h3").each(function(i, element) {
       let result = {};
 
