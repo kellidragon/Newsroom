@@ -20,7 +20,7 @@
     }
 
     .btn{
-      margin: 10px;
+      margin: 5px 10px;
     }
 
   html {
@@ -32,16 +32,20 @@
   }
 
   .jumbotron{
-    background-color: rgba(227, 230, 225, 0.589);
+    background-color: rgba(255, 255, 255, 0.589);
     padding-left: 150px;
   }
 
+#artCount{
+  font-size: 1.5rem;
+}
    .articlesCont {
       width: 100%;
       margin-left: auto;
       margin-right: auto;
       padding-left: 12%;
       padding-top: 5%;
+      background-color: rgba(255, 255, 255, 0.589);
     }
 
     #articles {
@@ -78,6 +82,7 @@
       padding: 30px;
       margin: 10px;
       border-radius: 5%;
+      overflow:hidden;
     }
 
     .form-control {
@@ -119,7 +124,10 @@
     <div class="container articlesCont">
       <div class="row">
         <div class="col-12">
-          <div id="articles"></div>
+          <div id="artCount" ></div>
+          <div id="articles">
+           
+          </div>
           <div id="comments"></div>
 
         </div>

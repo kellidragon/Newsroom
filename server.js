@@ -29,10 +29,28 @@ mongoose.connect((MONGODB_URI), { useNewUrlParser: true });;
 
 // Routes
 
+
+
 app.get("/scrape", function(req, res) {
   axios.get("https://news.google.com/").then(function(response) {
+
     
     let $ = cheerio.load(response.data);
+    $("figure img").each(function(i, element) {
+      let result = {};
+      result.img = $(this)
+      .attr('src')
+      db.Article.create(result)
+      .then(function(dbArticle) {
+        // View the added result in the console
+        console.log(dbArticle);
+      })
+      .catch(function(err) {
+        // If an error occurred, log it
+        console.log(err);
+      });
+    });
+
     $("article h3").each(function(i, element) {
       let result = {};
 
@@ -40,8 +58,9 @@ app.get("/scrape", function(req, res) {
         .children("a")
         .text();
       result.summary = $(this)
-//         .children("article")
-// console.log(result.summary)
+       .children()
+        .text();
+      console.log(result.summary)
       result.link = $(this)
         .children("a")
         .attr("href");
@@ -49,8 +68,7 @@ app.get("/scrape", function(req, res) {
 
       db.Article.create(result)
         .then(function(dbArticle) {
-          // View the added result in the console
-          // console.log(dbArticle);
+          console.log(dbArticle);
         })
         .catch(function(err) {
           // If an error occurred, log it
@@ -58,24 +76,6 @@ app.get("/scrape", function(req, res) {
         });
     });
    
- 
-  //   $("div img").each(function(i, element) {
-  //       let result = {};
-  //       result.img = $(this)
-  //       .children("img")
-
-
-  //   db.Article.create(result)
-  //   .then(function(dbArticle) {
-  //     // View the added result in the console
-  //     console.log(dbArticle);
-  //   })
-  //   .catch(function(err) {
-  //     // If an error occurred, log it
-  //     console.log(err);
-  //   });
-  // });
-
     // Send a message to the client
     res.send("Scrape Complete");
   });
@@ -94,11 +94,8 @@ app.get("/articles", function(req, res) {
 
 // Route for getting all saved Articles from the db
 app.get("/saved", function(req, res) {
-  Article.find({"saved": true}).populate("notes").exec(function(error, articles) {
-    var hbsObject = {
-      article: articles
-    };
-    res.render("saved", hbsObject);
+  Article.find({"saved": true}).populate("articles").then(function(error, articles) {
+    res.json(articles);
   });
 });
 
@@ -106,10 +103,8 @@ app.get("/saved", function(req, res) {
 app.get("/articles/:id", function(req, res) {
   // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
   db.Article.findOne({ _id: req.params.id })
-    // ..and populate all of the notes associated with it
     .populate("comment")
     .then(function(dbArticle) {
-      // If we were able to successfully find an Article with the given id, send it back to the client
       res.json(dbArticle);
     })
     .catch(function(err) {
@@ -136,16 +131,12 @@ app.post("/articles/:id", function(req, res) {
 
 // Save an article
 app.post("/articles/save/:id", function(req, res) {
-  // Use the article id to find and update its saved boolean
   Article.findOneAndUpdate({ "_id": req.params.id }, { "saved": true})
-  // Execute the above query
-  .exec(function(err, doc) {
-    // Log any errors
+  .then(function(err, doc) {
     if (err) {
       console.log(err);
     }
     else {
-      // Or send the document to the browser
       res.send(doc);
     }
   });
