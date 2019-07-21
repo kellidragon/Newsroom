@@ -2,140 +2,143 @@
 <html lang="en-us">
 
 <head>
-  <meta charset="UTF-8">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <title>Newsroom Mongo Scraping</title>
-  <style>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Newsroom Mongo Scraping</title>
+    <style>
+        * {
+            font-family: 'Times New Roman', Times, serif;
+        }
 
-    *{
-      font-family: 'Times New Roman', Times, serif;
-    }
-    body {
-      background: url("../uploads/news2.jpg")no-repeat center center fixed;
-      -webkit-background-size: cover;
-      -moz-background-size: cover;
-      -o-background-size: cover;
-      background-size: cover;
-    }
+        body {
+            background: url("../uploads/news2.jpg")no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
 
-    .btn{
-      margin: 5px 10px;
-    }
+        .btn {
+            margin: 5px 10px;
+        }
 
-  html {
-    scroll-behavior: smooth;
-  }
+        html {
+            scroll-behavior: smooth;
+        }
 
-  .navbar{
-    background-color: rgba(254, 255, 254, 0.637) !important;
-  }
+        .navbar {
+            background-color: rgba(254, 255, 254, 0.637) !important;
+        }
 
-  .jumbotron{
-    background-color: rgba(255, 255, 255, 0.589);
-    padding-left: 150px;
-  }
+        .jumbotron {
+            background-color: rgba(255, 255, 255, 0.589);
+            padding-left: 150px;
+        }
 
-#artCount{
-  font-size: 1.5rem;
-}
-   .articlesCont , #savedArticles{
-      width: 100%;
-      margin-left: auto;
-      margin-right: auto;
-      padding-left: 12%;
-      padding-top: 5%;
-      background-color: rgba(255, 255, 255, 0.589);
-    }
+        #artCount, #saveArticles{
+            font-size: 1.5rem;
+        }
 
-    #articles, #savedArticles {
-      display: inline-block;
-      overflow: auto;
-      height: 700px;
-    }
+        .articlesCont, .savedContainer
+         {
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 12%;
+            padding-top: 5%;
+            background-color: rgba(255, 255, 255, 0.589);
+        }
 
-    #comments {
-      float: left;
-      width: 30%;
-    }
+        #articles,
+        #savedArticles {
+            display: inline-block;
+            overflow: auto;
+            height: 700px;
+        }
 
-    textarea,
-    input {
-      display: block;
-      width: 100%;
-      background-color: #FCF5C7;
-    }
+        #comments {
+            float: left;
+            width: 30%;
+        }
 
-    input {
-      height: 36px;
-      font-size: 24px;
-    }
+        textarea,
+        input {
+            display: block;
+            width: 100%;
+            background-color: #FCF5C7;
+        }
 
-    
-    textarea {
-      height: 200px;
-      font-size: 18px;
-    }
+        input {
+            height: 36px;
+            font-size: 24px;
+        }
 
-    .card {
-      float: left;
-      height: 35rem;
-      padding: 30px;
-      margin: 10px;
-      border-radius: 5%;
-      overflow:scroll;
-    }
 
-    .form-control {
-      height: 40px;
-    }
+        textarea {
+            height: 200px;
+            font-size: 18px;
+        }
 
-    .container {
-      margin: 0 auto;
-      text-align: center;
-    }
+        .card {
+            float: left;
+            height: 35rem;
+            padding: 30px;
+            margin: 10px;
+            border-radius: 5%;
+            overflow: scroll;
+        }
 
-    .commentCol {
-      background: rgba(227, 230, 225, 0.253)
-    }
-  </style>
+        .form-control {
+            height: 40px;
+        }
+
+        .container {
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .commentCol {
+            background: rgba(227, 230, 225, 0.253)
+        }
+    </style>
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">
-      <img src="uploads/logo.png" width="70" height="70">
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-    </div>
-  </nav>
-  <div class="jumbotron">
-    <h1 class="display-4">The Newsroom</h1>
-    <hr class="my-4" style="background-color: black !important;">
-    <p class="lead"> For Coverage You Can Count On</p>
-    <button class="btn btn-light findSaved"  role="button">Saved Articles</button>
-    <!-- <button class="btn btn-dark" id="letsScrape" role="button">Let's Scrape!</button> -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">
+            <img src="uploads/logo.png" width="70" height="70">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+        </div>
+    </nav>
+    <div class="jumbotron">
+        <h1 class="display-4">The Newsroom</h1>
+        <hr class="my-4" style="background-color: black !important;">
+        <p class="lead"> For Coverage You Can Count On</p>
+        <a class="btn btn-outline-dark " href="/" role="button">Home</a>
+        <button class="btn btn-outline-secondary findSaved" role="button">Saved Articles</button>
+        <!-- <button class="btn btn-dark" id="letsScrape" role="button">Let's Scrape!</button> -->
     </div>
     <div id="wrapper">
-            <div class="container">
-              <div class="row">
+        <div class="container savedContainer">
+            <div class="row">
                 <div class="col-12">
-                  <!-- <div id="artCount" ></div>
-                  <div id="articles">  </div> -->
-                  <div class="container savedCont"></div>
-                      <div id="savedArticles">  </div>
-                  <div id="comments"></div>
-        
+                        <div id="saveArticles"> </div>
+                    <div class=" savedCont"></div>
+          
+                    <div id="comments"></div>
+
                 </div>
-              </div>
-          </div>
-  </div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="app.js"></script>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="app.js"></script>
 </body>
 
 </html>

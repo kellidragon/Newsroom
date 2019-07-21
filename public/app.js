@@ -14,9 +14,9 @@ $(document).click("#letsSrape", function () {
         "<div class='card' style='width: 25rem' data-id='"
         + data[i]._id + "'>"  + "<div class='card-body'>" + "<h5 class='card-header'>"
         + data[i].title + "</h5>" + "<br />" + "<p>" + "Link:" + "<p>" +
-        "<a class='card-text' href='" + data[i].link + "'>" + data[i].link + "</a>" + "<br>" + "<br>" + "<button id='saveArt' class='btn btn-success' data-id='"
-        + data[i]._id + "'>" + "Save" + "</button>" + "<button id='commentArticle' class='btn btn-secondary' data-id='"
-        + data[i]._id + "'>" + "Comment" + "</button>" + "<button id='deleteArticle' class='btn btn-dark' data-id='"
+        "<a class='card-text' href='" + data[i].link + "'>" + data[i].link + "</a>" + "<br>" + "<br>" + "<button id='saveArt' class='btn btn-outline-info' data-id='"
+        + data[i]._id + "'>" + "Save" + "</button>" + "<button id='commentArticle' class='btn btn-outline-success' data-id='"
+        + data[i]._id + "'>" + "Comment" + "</button>" + "<button id='deleteArticle' class='btn btn-outline-dark' data-id='"
         + data[i]._id + "'>" + "Delete" + "</button>" + "<div id='commentForm'>" + "</div>"+ "<div id='savedCom'>" + "</div>" + "</div>" + "</div>");
 
     }
@@ -39,7 +39,7 @@ $(document).one("click", "#commentArticle", function () {
 
       console.log(data)
       $(".card" ).append("<input class='form-control' type= 'text' placeholder ='Write your comment here' id='titleinput' name='title' >");
-      $(".card").append("<button class='btn btn-light 'data-id='" + data._id + "' id='savenote'>Save Comment</button>");
+      $(".card").append("<button class='btn btn-outline-success 'data-id='" + data._id + "' id='savenote'>Save Comment</button>");
 
       if (data.comment) {
         $("#savedCom").val(data.comment.title);
@@ -57,11 +57,13 @@ $(document).on("click", "#deleteArticle", function () {
   }).then(function () {
     $("#articles").empty();
     setTimeout(function () { alert("This article has been deleted."); }, 1000);
+    location.reload()
   })
 })
 
 //Save Article button
-$(document).on("click", "#save", function() {
+$(document).on("click", "#saveArt", function() {
+  console.log("working")
   $(this).addClass("disabled");
   var thisId = $(this).attr("data-id");
   console.log(thisId);
@@ -73,6 +75,7 @@ $(document).on("click", "#save", function() {
   })
   
   .then(function(data) {
+    alert("Your article has been saved")
       console.log(data);
   });
 });
@@ -85,11 +88,12 @@ $(document).on("click", "#save", function() {
   $.getJSON("/saved", function (data) {
     console.log(data)
     for (let i = 0; i < data.length; i++) {
+      $("#saveArticles").html(data.length + " articles found")
       $(".savedCont").append(  "<div class='card' style='width: 25rem' data-id='"
       + data[i]._id + "'>"  + "<div class='card-body'>" + "<h5 class='card-header'>"
       + data[i].title + "</h5>" + "<br />" + "<p>" + "Link:" + "<p>" +
-      "<a class='card-text' href='" + data[i].link + "'>" + data[i].link + "</a>" + "<br>" + "<br>"  + "<button id='commentArticle' class='btn btn-secondary' data-id='"
-      + data[i]._id + "'>" + "Comment" + "</button>" + "<button id='deleteArticle' class='btn btn-dark' data-id='"
+      "<a class='card-text' href='" + data[i].link + "'>" + data[i].link + "</a>" + "<br>" + "<br>"  + "<button id='commentArticle' class='btn btn-outline-success' data-id='"
+      + data[i]._id + "'>" + "Comment" + "</button>" + "<button id='deleteArticle' class='btn btn-outline-dark' data-id='"
       + data[i]._id + "'>" + "Delete" + "</button>" + "<div id='commentForm'>" + "</div>"+ "<div id='savedCom'>" + "</div>" + "</div>" + "</div>")
     }
  
