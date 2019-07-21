@@ -24,83 +24,90 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // Connect to the Mongo DB
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://newsroom:Metropcs1@ds151997.mlab.com:51997/heroku_k44g601m",;
-mongoose.connect((MONGODB_URI), { useNewUrlParser: true });;
+// const MONGODB_URI = process.env.MONGODB_URI || "mongodb://newsroom:Metropcs1@ds151997.mlab.com:51997/heroku_k44g601m", ;
+// mongoose.connect((MONGODB_URI), { useNewUrlParser: true });;
+
+mongoose.Promise = global.Promise;
+mongoose.connect(process.env.MONGODB_URI || "mongodb://newsroom:Metropcs1@ds151997.mlab.com:51997/heroku_k44g601m", 
+{
+  useMongoClient: true
+}
+);
 
 // Routes
 
 
 
-app.get("/scrape", function(req, res) {
-  axios.get("https://news.google.com/").then(function(response) {
+app.get("/scrape", function (req, res) {
+  axios.get("https://news.google.com/").then(function (response) {
 
-    
+
     let $ = cheerio.load(response.data);
-    $("article h3").each(function(i, element) {
+    $("article h3").each(function (i, element) {
       let result = {};
 
       result.title = $(this)
         .children("a")
         .text();
       result.summary = $(this)
-       .children()
+        .children()
         .text();
       console.log(result.summary)
       result.link = $(this)
         .children("a")
         .attr("href");
-  
+
 
       db.Article.create(result)
-        .then(function(dbArticle) {
+        .then(function (dbArticle) {
           console.log(dbArticle);
         })
-        .catch(function(err) {
+        .catch(function (err) {
           console.log(err);
         });
     });
-   
+
     res.send("Scrape Complete");
   });
 });
 
 // Route for getting all Articles from the db
-app.get("/articles", function(req, res) {
+app.get("/articles", function (req, res) {
   db.Article.find({})
-    .then(function(dbArticle) {
+    .then(function (dbArticle) {
       res.json(dbArticle);
     })
-    .catch(function(err) {
+    .catch(function (err) {
       res.json(err);
     });
 });
 
 
 // Route for grabbing a specific Article by id, populate it with it's note
-app.get("/articles/:id", function(req, res) {
+app.get("/articles/:id", function (req, res) {
   // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
   db.Article.findOne({ _id: req.params.id })
     .populate("comment")
-    .then(function(dbArticle) {
+    .then(function (dbArticle) {
       res.json(dbArticle);
     })
-    .catch(function(err) {
+    .catch(function (err) {
       // If an error occurred, send it to the client
       res.json(err);
     });
 });
 
 // Route for saving/updating an Article's associated Note
-app.post("/articles/:id", function(req, res) {
+app.post("/articles/:id", function (req, res) {
 
   db.Comment.create(req.body)
-    .then(function(dbComment) {
+    .then(function (dbComment) {
       return db.Article.findOneAndUpdate({ _id: req.params.id }, { comment: dbComment._id }, { new: true });
     })
-    .then(function(dbArticle) {
+    .then(function (dbArticle) {
       res.json(dbArticle);
     })
-    .catch(function(err) {
+    .catch(function (err) {
 
       res.json(err);
     });
@@ -108,48 +115,48 @@ app.post("/articles/:id", function(req, res) {
 
 
 // Route for saving/updating article to be saved
-app.put("/saved/:id", function(req, res) {
+app.put("/saved/:id", function (req, res) {
 
   db.Article
-    .findByIdAndUpdate({ _id: req.params.id }, { $set: { saved: true }})
-    .then(function(dbArticle) {
+    .findByIdAndUpdate({ _id: req.params.id }, { $set: { saved: true } })
+    .then(function (dbArticle) {
       res.json(dbArticle);
     })
-    .catch(function(err) {
+    .catch(function (err) {
       res.json(err);
     });
 });
 
 // Route for getting saved article
-app.get("/saved", function(req, res) {
+app.get("/saved", function (req, res) {
 
   db.Article
     .find({ saved: true })
-    .then(function(dbArticle) {
+    .then(function (dbArticle) {
       res.json(dbArticle);
     })
-    .catch(function(err) {
+    .catch(function (err) {
       res.json(err);
     });
 });
 
 
 // Route for deleting an article
-app.delete("/articles/:id", function(req, res) {
+app.delete("/articles/:id", function (req, res) {
   db.Article.findOne({ _id: req.params.id })
-  .then(function(dbArticle) {
-    dbArticle.remove(function(err){
+    .then(function (dbArticle) {
+      dbArticle.remove(function (err) {
+        res.json(err);
+      })
+    })
+    .catch(function (err) {
       res.json(err);
     })
-  })
-  .catch(function(err) {
-    res.json(err);
-  })
 })
 
 
 // Start the server
-app.listen(PORT, function() {
+app.listen(PORT, function () {
   console.log("App running on port " + PORT + "!");
 });
 
