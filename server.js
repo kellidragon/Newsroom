@@ -27,7 +27,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // Connect to the Mongo DB
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://heroku_k44g601m:password1.mlab.com:51997/heroku_k44g601m";
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://user:password1.mlab.com:51997/heroku_k44g601m";
 mongoose.connect((MONGODB_URI), { useNewUrlParser: true });;
 
 // mongodb://localhost/newsroom
